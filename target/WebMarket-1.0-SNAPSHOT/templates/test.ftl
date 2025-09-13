@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="card shadow p-5" style="width: 350px; border-radius: 15px;">
+                <form method="post" action="login">
+
+                    <#if error?? && error == "2">
+                    <p style="color:red; text-align:center;">Nome utente o password non validi.</p>
+                    </#if>
+
+                    <h1 class="text-center mb-4">Login</h1>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingInput" name="username" placeholder="name@example.com"> 
+                        <label for="floatingInput">Username</label> 
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password"> 
+                        <label for="floatingPassword">Password</label> 
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Accedi</button>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" 
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    </head>
+
+
+    <body>
+        <div class="container mt-4">
+            <form action="utenteRegistrato" method="post" class="mb-3">
+                <button type="submit" name="indietro" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Indietro
+                </button>
+            </form>
+
+            <div class="table-responsive w-75 mx-auto">
+                <table class="table table-striped table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome Prodotto</th>
+                            <th>Descrizione</th>
+                            <th>Prezzo</th>
+                            <th>Data della proposta</th>
+                            <th>Convalida</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <#list prodotti as r>
+                        <tr>
+                            <td>${r.key}</td>
+                            <td>${r.nome}</td>
+                            <td>${r.descrizione!""}</td>
+                            <td>${r.prezzo}</td>
+                            <td>${r.dataProposta?string("dd/MM/yyyy")}</td>
+                            <td><form id="form" method="post" action="prodottoCandidato">
+                                    <input type="hidden" name="idProdotto" value="${r.key}"> <!-- Mi serve per ottenere la sceòta dell utente sul determinato prodotto -->
+                                    <button type="submit" name="azione" value="accetta" class="btn btn-success">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                    <button type="submit" name="azione" value="rifiuta" class="btn btn-danger">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <#else>
+                        <tr>
+                            <td colspan="5">Nessuna richiesta trovata</td>
+                        </tr>
+                        </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+
+</html>

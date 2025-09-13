@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Le tue richieste di acquisto</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" 
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<h2>Le tue richieste di acquisto</h2>
+
+<form action="utenteRegistrato" method="post">
+    <button type="submit" name="indietro"> <i class="fa-solid fa-arrow-left"></i> </button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Importo</th>
+            <th>Note</th>
+            <th>Stato</th>
+            <th>Data Inserimento</th>
+        </tr>
+    </thead>
+    <tbody>
+        <#list richieste as r>
+            <tr>
+                <td>${username}</td>
+                <td>${r.importo}</td>
+                <td>${r.note!""}</td>
+                <td>${r.stato}</td>
+               <td>${r.dataInserimento?string("dd/MM/yyyy")}</td>
+
+            </tr>
+        <#else>
+            <tr>
+                <td colspan="6">Nessuna richiesta trovata</td>
+            </tr>
+        </#list>
+    </tbody>
+</table>
+
+
+</body>
+</html>
