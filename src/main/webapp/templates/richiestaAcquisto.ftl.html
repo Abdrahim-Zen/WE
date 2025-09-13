@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Nuova Richiesta di Acquisto</title>
+        <link rel="stylesheet" href="style/richiesta.css">
+    </head>
+    <body>
+        <div class="contenitore">
+            <form action="utenteRegistrato" method="post">
+                <button type="submit" name="indietro"> indietro </button>
+            </form>
+        </div>
+        <form method="post" action="richiestaAcquisto">
+            <div class="contenitore">
+                <h1>Nuova Richiesta di Acquisto</h1>
+
+
+                <div class="categoria-box">
+                    <#list categorie as cat>
+                    <h2>Categoria: ${cat.nomeCategoria}</h2>
+                    <input type="radio" name="categoria" value="${cat.key}" 
+                           onclick="mostraSpecifiche('${cat.key}')" required /> 
+                    Seleziona questa categoria
+                    </#list>
+                </div>
+
+
+
+                <#list categorie as cat>
+                <div id="spec-${cat.key}" class="specifiche">
+                    <h3>Specifiche della Categoria: ${cat.nomeCategoria}</h3>
+                    <#assign specifiche = specificheMap[cat.key?string]>
+                    <#if specifiche??>
+                    <#list specifiche as spec>
+                    <div class="specifica-input">
+                        <label>${spec.nomeSpecifica}:</label>
+                        <input type="text" 
+                               name="specifiche_${spec.key}" 
+                               placeholder="Inserisci valore desiderato" />
+                    </div>
+                    </#list>
+                    </#if>
+                </div>
+                </#list>
+
+
+
+                <label for="importo">Importo massimo (€):</label>
+                <input type="number" step="0.01" name="importo" id="importo" required style="width: 120px; height: 25px;" />
+
+
+                <br/><br/>
+                <label for="note">Note aggiuntive:</label><br/>
+                <textarea id="note" name="note" placeholder="Scrivi qui eventuali dettagli, preferenze o informazioni utili..."></textarea>
+
+                <br/><br/>
+                <button type="submit" class="task" name="richiestaAcquisto">
+                    <p>Invia richiesta</p>
+                </button>
+        </form>
+    </div>
+
+    <script>
+        function mostraSpecifiche(catKey) {
+            // Nascondo tutte le specifiche
+            document.querySelectorAll('.specifiche').forEach(div => {
+                div.style.display = 'none';
+            });
+            // Mostro solo quelle della categoria scelta
+            const specDiv = document.getElementById('spec-' + catKey);
+            if (specDiv) {
+                specDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
