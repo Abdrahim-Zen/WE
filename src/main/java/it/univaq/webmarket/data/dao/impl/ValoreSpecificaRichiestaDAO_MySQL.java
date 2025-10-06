@@ -36,9 +36,9 @@ public class ValoreSpecificaRichiestaDAO_MySQL extends DAO implements ValoreSpec
     public void init() throws DataException{
         super.init();
         try {
-            iValoreRichiesta=connection.prepareStatement("INSERT INTO valore_specifica_richiesta (ID_richiesta, ID_specifica_categoria, valore) "
+            iValoreRichiesta=connection.prepareStatement("INSERT INTO specifiche_richiesta (ID_richiesta, ID_specifica_categoria, valore) "
                     + "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uValoreRichiesta=connection.prepareStatement("UPDATE valore_specifica_richiesta SET ID_richiesta=?, ID_specifica_categoria=?, valore=?, version=? "
+            uValoreRichiesta=connection.prepareStatement("UPDATE specifiche_richiesta SET ID_richiesta=?, ID_specifica_categoria=?, valore=?, version=? "
                     +"WHERE ID=? AND version=? ");
         } catch (SQLException ex) {
             Logger.getLogger(ValoreSpecificaRichiestaDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);

@@ -13,6 +13,7 @@ import it.univaq.webmarket.data.model.UtenteRegistrato;
 import it.univaq.webmarket.data.model.ValoreSpecificaRichiesta;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.view.TemplateManagerException;
 import it.univaq.webmarket.framework.view.TemplateResult;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -38,11 +39,17 @@ public class RichiestaAcquistoController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpSession session = SecurityHelpers.checkSession(request);
+        if(session==null){
+            response.sendRedirect("login?error=3");
+            return;
+        }
         if (request.getParameter("richiestaAcquisto") != null) {
             invioRichiesta(request, response);
         }
 
         WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
+        request.setAttribute("error", request.getParameter("error"));
 
         List<Categoria> categorie = dl.getCategoriaDAO().getAllCategorie();
         Map<String, List<SpecificaCategoria>> mappaSpecifiche = new HashMap<>();
@@ -60,7 +67,10 @@ public class RichiestaAcquistoController extends ApplicationBaseController {
 
     }
 
-    private void invioRichiesta(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException {
+    private void invioRichiesta(HttpServletRequest request, HttpServletResponse response) throws DataException, IOException, TemplateManagerException {
+        try {
+            
+        
         WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
 
         HttpSession session = SecurityHelpers.checkSession(request);
@@ -93,7 +103,13 @@ public class RichiestaAcquistoController extends ApplicationBaseController {
             }
         }
 
-        response.sendRedirect("utenteRegistrato");
+        response.sendRedirect("utenteRegistrato");}
+        catch (Exception e) {
+        
+        response.sendRedirect("richiestaAcquisto?error");
+        
+            
+        }
 
     }
 

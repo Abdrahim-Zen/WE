@@ -14,9 +14,10 @@ public interface Utente extends DataItem<Integer> {
     String getNome();
     
     String getCognome();
-    
+    String getPassword();
+    String getEmail();
     void setNome(String name);
-    
+    void setEmail(String x);
     void setCognome(String surname);
     
     Amministratore getAmministratore();

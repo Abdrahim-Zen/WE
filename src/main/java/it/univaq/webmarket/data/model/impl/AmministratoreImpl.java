@@ -14,7 +14,8 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 public class AmministratoreImpl extends DataItemImpl<Integer> implements Amministratore{
     private String nome;
     private String cognome;
-    
+    private String password;
+    private String email;
     public AmministratoreImpl(){
         nome=null;
         cognome=null;
@@ -37,6 +38,26 @@ public class AmministratoreImpl extends DataItemImpl<Integer> implements Amminis
     @Override
     public void setCognome(String surname) {
         this.cognome=surname; 
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password=password; 
+    }
+
+    @Override
+    public String getPassword() {
+        return password; 
+    }
+
+    @Override
+    public String getEmail() {
+        return email; 
+    }
+
+    @Override
+    public void setEmail(String x) {
+       this.email=x; 
     }
 
    

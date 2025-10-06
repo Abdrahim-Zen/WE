@@ -98,13 +98,13 @@ public class ProdottoDAO_MySQL extends DAO implements ProdottoDAO {
     List<Prodotto> prodotti = new ArrayList<>();
     try {
         sProdottiByCategoria.setInt(1, categoriaId);
-        try (ResultSet rs = sProdottiByCategoria.executeQuery()) {
+        ResultSet rs = sProdottiByCategoria.executeQuery();
             while (rs.next()) {
                 Prodotto prodotto = createProdotto(rs);
                 prodotti.add(prodotto);
                 dataLayer.getCache().add(Prodotto.class, prodotto);
             }
-        }
+        
     } catch (SQLException ex) {
         throw new DataException("Unable to load prodotti by categoria", ex);
     }

@@ -11,7 +11,6 @@ package it.univaq.webmarket.data.model;
 public interface UtenteRegistrato extends Utente {
     String getPassword();
     
-    
     Double getBudgetDisponibile();
     
     void setBudgetDisponibile(Double x);

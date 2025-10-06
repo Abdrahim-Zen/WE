@@ -15,11 +15,14 @@
                     <#if error?? && error == "2">
                     <p style="color:red; text-align:center;">Nome utente o password non validi.</p>
                     </#if>
-
+                    <#if error?? && error == "3">
+                    <p style="color:red; text-align:center;">Sesssione scaduta.</p>
+                    </#if>
+                          
                     <h1 class="text-center mb-4">Login</h1>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" name="username" placeholder="name@example.com"> 
+                        <input type="text" class="form-control" id="floatingInput" name="email" placeholder="name@example.com"> 
                         <label for="floatingInput">Username</label> 
                     </div>
 

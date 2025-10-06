@@ -13,7 +13,7 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
  * @author abdrahimzeno
  */
 public class UtenteRegistratoImpl extends DataItemImpl<Integer> implements UtenteRegistrato{
-    
+      private String email;
       private String nome;
       private String cognome;
       private Amministratore amministratore;
@@ -75,6 +75,16 @@ public class UtenteRegistratoImpl extends DataItemImpl<Integer> implements Utent
     @Override
     public void setAmministratore(Amministratore x) {
         this.amministratore=x; 
+    }
+
+    @Override
+    public String getEmail() {
+       return email; 
+    }
+
+    @Override
+    public void setEmail(String x) {
+       this.email=x; 
     }
     
 }

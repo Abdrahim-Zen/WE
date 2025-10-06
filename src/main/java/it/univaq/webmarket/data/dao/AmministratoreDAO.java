@@ -4,14 +4,16 @@
  */
 package it.univaq.webmarket.data.dao;
 
-import it.univaq.webmarket.data.model.UtenteRegistrato;
+import it.univaq.webmarket.data.model.Amministratore;
 import it.univaq.webmarket.framework.data.DataException;
 
 /**
  *
- * @author abdrahimzeno
+ * @author abrah
  */
-public interface UtenteRegistratoDAO {
-    UtenteRegistrato getUtenteRegistrato(String n)throws DataException;
-    UtenteRegistrato getUtente(Integer id) throws DataException;
+public interface AmministratoreDAO {
+    Amministratore getAmmistratorebyEmail(String x)throws DataException;
+    Amministratore getAmministratorebyID(Integer x) throws DataException;
+    
+    
 }

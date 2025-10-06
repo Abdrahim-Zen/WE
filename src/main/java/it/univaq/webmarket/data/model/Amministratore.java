@@ -15,9 +15,17 @@ public interface Amministratore extends DataItem<Integer>{
     
     String getCognome();
     
+    String getEmail();
+    
+    String getPassword();
+    
     void setNome(String name);
     
     void setCognome(String surname);
+    
+    void setPassword(String password);
+    
+    void setEmail(String x);
     
   
 }

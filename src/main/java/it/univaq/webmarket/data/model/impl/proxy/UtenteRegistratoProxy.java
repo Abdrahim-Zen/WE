@@ -54,6 +54,12 @@ public class UtenteRegistratoProxy extends UtenteRegistratoImpl implements DataI
         super.setAmministratore(x);
         setModified(true);
     }
+    
+    @Override
+    public void setEmail(String x){
+        super.setEmail(x);
+        setModified(true);
+    }
 
     @Override
     public boolean isModified() {

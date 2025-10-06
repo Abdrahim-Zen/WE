@@ -18,11 +18,16 @@
                     </button>
                 </form>
             </div>
+            
+            <#if error??>
+                    <div class="alert alert-danger" role="alert">
+                        Si è verificato un errore, ricompila il modulo.
+                    </div>
+                    </#if>
+                    
             <form method="post" action="richiestaAcquisto">
                 <div class="contenitore">
                     <h1>Nuova Richiesta di Acquisto</h1>
-
-
                     <div class="categoria-box">
                         <#list categorie as cat>
                         <h2>Categoria: ${cat.nomeCategoria}</h2>
@@ -36,8 +41,8 @@
 
                     <#list categorie as cat>
                     <div id="spec-${
-                            cat.key
-                        }" class="specifiche">
+                             cat.key
+                         }" class="specifiche">
                         <h3>Specifiche della Categoria: ${cat.nomeCategoria}</h3>
                         <#assign specifiche = specificheMap[cat.key?string]>
                         <#if specifiche??>

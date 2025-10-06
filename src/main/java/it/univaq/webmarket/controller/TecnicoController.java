@@ -4,6 +4,7 @@
  */
 package it.univaq.webmarket.controller;
 
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 import it.univaq.webmarket.framework.view.TemplateManagerException;
 import it.univaq.webmarket.framework.view.TemplateResult;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +25,13 @@ public class TecnicoController extends HttpServlet {
 
      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-           String username = (String) request.getSession().getAttribute("username");
+           
+           HttpSession session = SecurityHelpers.checkSession(request);
+        if(session==null){
+            response.sendRedirect("login?error=3");
+            return;
+        }
+           String username = (String) session.getAttribute("username");
            request.setAttribute("username", username);
             action_default(request,response);
     }

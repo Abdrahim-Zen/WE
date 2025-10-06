@@ -13,7 +13,10 @@ import it.univaq.webmarket.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,7 +24,7 @@ import java.util.List;
  */
 public class UtenteDAO_MySQL extends DAO implements UtenteDAO{
     private PreparedStatement sUserByID;
-  
+    private PreparedStatement sUserByAdminID;
     
     
     public UtenteDAO_MySQL(DataLayer d) {
@@ -33,7 +36,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO{
         try {
             super.init();
             sUserByID = connection.prepareStatement("SELECT * FROM utente WHERE ID=?"); // precompilo le istruzioni SQL
-        
+            sUserByAdminID=connection.prepareStatement("SELECT * FROM utente WHERE creato_da=? ");
         } catch (SQLException ex) {
             throw new DataException("Error initializing market data layer", ex);
         }
@@ -62,6 +65,7 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO{
             a.setCognome(rs.getString("cognome"));
             a.setNome(rs.getString("nome"));
             a.setAmministratore_key(rs.getInt("creato_da"));
+            a.setEmail(rs.getString("email"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create user object form ResultSet", ex);
@@ -106,7 +110,19 @@ public class UtenteDAO_MySQL extends DAO implements UtenteDAO{
 
     @Override
     public List<Utente> getUtentiCreatiDa(int idAmministratore) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Utente> utenti = new ArrayList<>();
+        try {
+            sUserByAdminID.setInt(1, idAmministratore);
+            ResultSet rs = sUserByAdminID.executeQuery();
+            while(rs.next()){
+                Utente u = createUtente(rs);
+                utenti.add(u);
+                 dataLayer.getCache().add(Utente.class, u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UtenteDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return utenti;
     }
 
     

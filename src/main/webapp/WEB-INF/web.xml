@@ -17,6 +17,10 @@
         <servlet-class>it.univaq.webmarket.controller.UtenteRegistratoController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>amministratore</servlet-name>
+        <servlet-class>it.univaq.webmarket.controller.AmministratoreController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RichiestaAcquisto</servlet-name>
         <servlet-class>it.univaq.webmarket.controller.RichiestaAcquistoController</servlet-class>
     </servlet>
@@ -30,9 +34,29 @@
         <servlet-class>it.univaq.webmarket.controller.ProdottoCandidatoController</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>it.univaq.webmarket.controller.LoginController</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>gestioneUtenti</servlet-name>
+        <servlet-class>it.univaq.webmarket.controller.GestioneUtenti</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>StatoRichieste</servlet-name>
         <url-pattern>/statoRichieste</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>gestioneUtenti</servlet-name>
+        <url-pattern>/gestioneUtenti</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>amministratore</servlet-name>
+        <url-pattern>/amministratore</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>

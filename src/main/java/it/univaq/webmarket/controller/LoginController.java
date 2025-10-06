@@ -7,6 +7,7 @@ package it.univaq.webmarket.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.data.dao.impl.WebMarketDataLayer;
+import it.univaq.webmarket.data.model.Amministratore;
 import it.univaq.webmarket.data.model.Tecnico;
 import it.univaq.webmarket.data.model.UtenteRegistrato;
 import it.univaq.webmarket.framework.data.DataException;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  *
@@ -40,20 +43,43 @@ public class LoginController extends ApplicationBaseController {
         result.activate("login.ftl.html", request, response);
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
 
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        UtenteRegistrato utente = dl.getUtenteRegistratoDAO().getUtenteRegistrato(username, password);
-        HttpSession session = SecurityHelpers.checkSession(request);
-        Tecnico tecnico = null;
+        UtenteRegistrato utente = dl.getUtenteRegistratoDAO().getUtenteRegistrato(email);
 
-        if (utente == null) {
-            tecnico = dl.getTecnicoDAO().getTecnicoByName(username, password);
-            if (tecnico == null) {
+        if (utente != null && SecurityHelpers.checkPasswordHashPBKDF2(password, utente.getPassword())) {
+            SecurityHelpers.createSession(request, utente.getNome(), utente.getKey());
+            response.sendRedirect("utenteRegistrato");
+            return;
+        }
+        Tecnico tecnico = dl.getTecnicoDAO().getTecnicoByName(email, email);
+        if(tecnico !=null && SecurityHelpers.checkPasswordHashPBKDF2(password, tecnico.getPassword())){
+            SecurityHelpers.createSession(request, tecnico.getNome(), tecnico.getKey());
+            response.sendRedirect("tecnico");
+            return;
+        }
+        
+        Amministratore amministratore = dl.getAmministratoreDAO().getAmmistratorebyEmail(email);
+        if(amministratore !=null && SecurityHelpers.checkPasswordHashPBKDF2(password, amministratore.getPassword())){
+        SecurityHelpers.createSession(request, amministratore.getNome(),amministratore.getKey());
+        response.sendRedirect("amministratore");
+        return;
+        }
+            
+        else{
+             response.sendRedirect("login?error=2");
+        }
+        /*         
+        if (utente == null||!SecurityHelpers.checkPasswordHashPBKDF2(password, utente.getPassword())) {
+            Tecnico tecnico = dl.getTecnicoDAO().getTecnicoByName(email, password);
+            if (tecnico == null||!SecurityHelpers.checkPasswordHashPBKDF2(password, tecnico.getPassword())) {
+                
+                
                 response.sendRedirect("login?error=2");
                 return;
             }
@@ -62,9 +88,9 @@ public class LoginController extends ApplicationBaseController {
             response.sendRedirect("tecnico");
         } else {
 
-            SecurityHelpers.createSession(request, username, utente.getKey());
+            SecurityHelpers.createSession(request, utente.getNome(), utente.getKey());
             response.sendRedirect("utenteRegistrato");
-        }
+        }*/
 
     }
 }

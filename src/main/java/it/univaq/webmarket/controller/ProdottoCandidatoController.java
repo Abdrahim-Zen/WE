@@ -35,6 +35,11 @@ public class ProdottoCandidatoController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, TemplateManagerException {
+        HttpSession session = SecurityHelpers.checkSession(request);
+        if(session==null){
+            response.sendRedirect("login?error=3");
+            return;
+        }
         String azione = request.getParameter("azione");
         if ("accetta".equals(azione)) {
             accettazione(request, response);
@@ -42,7 +47,7 @@ public class ProdottoCandidatoController extends ApplicationBaseController {
            rifiutato(request,response);
         }
         WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
-        HttpSession session = SecurityHelpers.checkSession(request);
+        
         Integer idUtente = (Integer) session.getAttribute("userid");
         List<ProdottoCandidato> prodotti = dl.getProdottoCandidatoDAO().getProdottiCandidatiByUserID(idUtente);
         Map<String, Object> datamodel = new HashMap<>();

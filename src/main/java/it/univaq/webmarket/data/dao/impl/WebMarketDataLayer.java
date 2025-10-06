@@ -4,6 +4,7 @@
  */
 package it.univaq.webmarket.data.dao.impl;
 
+import it.univaq.webmarket.data.dao.AmministratoreDAO;
 import it.univaq.webmarket.data.dao.CategoriaDAO;
 import it.univaq.webmarket.data.dao.ProdottoCandidatoDAO;
 import it.univaq.webmarket.data.dao.ProdottoDAO;
@@ -23,6 +24,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import it.univaq.webmarket.data.dao.RichiestaAcquistoDAO;
 import it.univaq.webmarket.data.dao.ValoreSpecificaRichiestaDAO;
+import it.univaq.webmarket.data.model.Amministratore;
 import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.ProdottoCandidato;
 import it.univaq.webmarket.data.model.ValoreSpecificaRichiesta;
@@ -48,6 +50,7 @@ public class WebMarketDataLayer extends DataLayer {
         registerDAO(Categoria.class,new CategoriaDAO_MySQL(this));
         registerDAO(ValoreSpecificaRichiesta.class, new ValoreSpecificaRichiestaDAO_MySQL(this));
         registerDAO(ProdottoCandidato.class, new ProdottoCandidatoDAO_MySQL(this));
+        registerDAO(Amministratore.class, new AmministratoreDAO_MySQL(this));
 
     }
 
@@ -84,6 +87,9 @@ public class WebMarketDataLayer extends DataLayer {
     
     public ProdottoCandidatoDAO getProdottoCandidatoDAO(){
         return (ProdottoCandidatoDAO) getDAO(ProdottoCandidato.class);
+    }
+    public AmministratoreDAO getAmministratoreDAO(){
+        return (AmministratoreDAO) getDAO(Amministratore.class);
     }
 
 }

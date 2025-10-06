@@ -50,5 +50,9 @@ public class UtenteProxy extends UtenteImpl implements DataItemProxy {
         this.Amministratore_key = a;
         setModified(true);
     }
+    public void setEmail(String x){
+        super.setEmail(x);
+        setModified(true);
+    }
 
 }

@@ -33,15 +33,13 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
         try {
               sUserByID = connection.prepareStatement(
             "SELECT u.ID, u.nome, u.cognome, u.password, u.creato_da, ur.budget_disponibile " +
-            "FROM utente u JOIN utenteRegistrato ur ON u.ID = ur.ID_Utente " +
+            "FROM utente u JOIN utenteRegistrato ur ON u.ID = ur.ID " +
             "WHERE u.ID = ?"
         );
         
         sRegistedUserbyName = connection.prepareStatement(
-            "SELECT u.ID_Utente " +
-            "FROM utenteRegistrato u " +
-            "JOIN utente ur ON u.ID_Utente = ur.ID " +
-            "WHERE ur.nome = ? AND ur.password = ?"
+            "SELECT ur.ID FROM utenteRegistrato ur "+ 
+            "JOIN utente u ON ur.ID = u.ID WHERE u.email = ? "
         );
         } catch (SQLException ex) {
             Logger.getLogger(UtenteRegistratoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,18 +49,16 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
     
     
     
-    
-    @Override
-    public UtenteRegistrato getUtenteRegistrato(String n, String p) throws DataException {
+    //ottengo utente tramite email
+    public UtenteRegistrato getUtenteRegistrato(String n) throws DataException {
         UtenteRegistrato u= null;
         try {
             sRegistedUserbyName.setString(1, n);
-            sRegistedUserbyName.setString(2, p);
-            ResultSet rs = sRegistedUserbyName.executeQuery();{
+            ResultSet rs = sRegistedUserbyName.executeQuery();
+            
             if(rs.next()){
-                 return getUtente(rs.getInt("ID_Utente"));
+                 return getUtente(rs.getInt("ID"));
             } 
-        }
             
         } catch (SQLException ex) {
             Logger.getLogger(UtenteRegistratoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,6 +67,7 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
      
     }
     
+    //ottengo utente tramite id
     @Override
     public UtenteRegistrato getUtente(Integer id) throws DataException {
         UtenteRegistrato u = null;
@@ -81,14 +78,14 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
            
             try {
                 sUserByID.setInt(1, id);
-                try ( ResultSet rs = sUserByID.executeQuery()) {
+                ResultSet rs = sUserByID.executeQuery();
                     if (rs.next()) {
 
                         u = createUtente(rs);
           
                         dataLayer.getCache().add(UtenteRegistrato.class, u);
                     }
-                }
+                
             } catch (SQLException ex) {
                 throw new DataException("Unable to load user by ID", ex);
             }
@@ -110,6 +107,7 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
             a.setAmministratore_key(rs.getInt("creato_da"));
             a.setBudgetDisponibile(rs.getDouble("budget_disponibile"));
             a.setPassword(rs.getString("password"));
+            
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create user object form ResultSet", ex);
