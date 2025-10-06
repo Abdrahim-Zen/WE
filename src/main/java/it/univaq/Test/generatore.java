@@ -13,7 +13,7 @@ import it.univaq.webmarket.framework.security.SecurityHelpers;
 public class generatore {
     
     public static void main(String[] args) throws Exception {
-        String password = "adminpass1"; // la password che vuoi dare all'utente zero
+        String password = "userpass3"; // la password che vuoi dare all'utente zero
         String hash = SecurityHelpers.getPasswordHashPBKDF2(password);
         System.out.println("Hash da salvare nel DB: " + hash);
     }
