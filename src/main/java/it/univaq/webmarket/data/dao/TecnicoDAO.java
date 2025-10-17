@@ -12,6 +12,6 @@ import it.univaq.webmarket.framework.data.DataException;
  * @author abdrahimzeno
  */
 public interface TecnicoDAO {
-    Tecnico getTecnicoByName(String n,String P)throws DataException;
     Tecnico getTecnicoByID(int id) throws DataException;
+    Tecnico getTecnicoByName(String n)throws DataException;
 }

@@ -25,7 +25,7 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
     private PreparedStatement sTecnicoByName;
     private PreparedStatement sTecnicoByID;
 
-    public TecnicoDAO_MySQL(DataLayer d)  {
+    public TecnicoDAO_MySQL(DataLayer d) {
         super(d);
     }
 
@@ -34,11 +34,12 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
         super.init();
 
         try {
-            sTecnicoByName = connection.prepareStatement("SELECT ID_Tecnico " + "FROM Tecnico t "
-                    + "JOIN Utente u ON t.ID_Tecnico=u.ID "
-                    + "WHERE u.nome= ? AND u.password= ?");
-            sTecnicoByID = connection.prepareStatement("SELECT u.ID, u.nome, u.cognome, u.password, u.creato_da, t.data_assunzione "
-                    + "FROM utente u JOIN Tecnico t ON u.ID = t.ID_Tecnico "
+            sTecnicoByName = connection.prepareStatement("SELECT t.*, u.* "
+                    + "FROM tecnico t "
+                    + "JOIN utente u ON t.ID = u.ID "
+                    + "WHERE u.email = ? ");
+            sTecnicoByID = connection.prepareStatement("SELECT * "
+                    + "FROM utente u JOIN tecnico t ON u.ID = t.ID "
                     + "WHERE u.ID = ?");
         } catch (SQLException ex) {
             Logger.getLogger(TecnicoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,16 +47,14 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
 
     }
 
-    @Override
-    public Tecnico getTecnicoByName(String n, String P)throws DataException {
+    public Tecnico getTecnicoByName(String n) throws DataException {
         Tecnico t = null;
 
         try {
             sTecnicoByName.setString(1, n);
-            sTecnicoByName.setString(2, P);
             ResultSet rs = sTecnicoByName.executeQuery();
             if (rs.next()) {
-                t = getTecnicoByID(rs.getInt("ID_Tecnico"));
+                t = getTecnicoByID(rs.getInt("ID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(TecnicoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,7 +63,7 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
     }
 
     @Override
-    public Tecnico getTecnicoByID(int id)throws DataException {
+    public Tecnico getTecnicoByID(int id) throws DataException {
         Tecnico t = null;
         if (dataLayer.getCache().has(Tecnico.class, id)) {
             t = dataLayer.getCache().get(Tecnico.class, id);
@@ -72,7 +71,7 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
 
             try {
                 sTecnicoByID.setInt(1, id);
-                try (ResultSet rs = sTecnicoByID.executeQuery()) {
+                try ( ResultSet rs = sTecnicoByID.executeQuery()) {
                     if (rs.next()) {
 
                         t = createTecnico(rs);
@@ -91,14 +90,13 @@ public class TecnicoDAO_MySQL extends DAO implements TecnicoDAO {
     }
 
     private Tecnico createTecnico(ResultSet rs) throws DataException {
-       try {
+        try {
             TecnicoProxy a = (TecnicoProxy) createUtente();
-            a.setKey(rs.getInt("ID"));
-            a.setCognome(rs.getString("cognome"));
             a.setNome(rs.getString("nome"));
-            a.setAmministratore_key(rs.getInt("creato_da"));
+            a.setKey(rs.getInt("ID"));
             a.setDataAssunzione(rs.getDate("data_assunzione").toLocalDate());
             a.setPassword(rs.getString("password"));
+            a.setStato(rs.getString("stato"));
             return a;
         } catch (SQLException ex) {
             throw new DataException("Unable to create user object form ResultSet", ex);

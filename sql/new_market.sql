@@ -23,7 +23,7 @@ nome VARCHAR(200) NOT NULL,
 cognome VARCHAR(200) NOT NULL,
 password VARCHAR(255) NOT NULL,
 creato_da INT UNSIGNED NOT NULL,
-FOREIGN KEY (creato_da) REFERENCES amministratore(ID)
+FOREIGN KEY (creato_da) REFERENCES amministratore(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE utenteRegistrato (
@@ -49,7 +49,7 @@ CREATE TABLE specifica_categoria (
     ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     ID_categoria INT UNSIGNED NOT NULL,
     nome_specifica VARCHAR(100) NOT NULL,
-    FOREIGN KEY (ID_categoria) REFERENCES categoria(ID)
+    FOREIGN KEY (ID_categoria) REFERENCES categoria(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE richiestaAcquisto (

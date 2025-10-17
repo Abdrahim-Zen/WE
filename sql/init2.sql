@@ -9,7 +9,7 @@ INSERT INTO utente (email, nome, cognome, password, creato_da)
 VALUES
 ('giuseppe.verdi@email.com', 'Giuseppe', 'Verdi', '3ff5c57969298a058da7b3cd63aa124d7038f199f06599258ab982a6d5b1dfaa1d7f11b57d44872f4e06d0fdaa4229c2', 1), -- userpass1
 ('anna.neri@email.com', 'Anna', 'Neri', 'b135b56b8e5d0cd8298ade5129789b4300b56a7910d978dba8294ea83a3e5d2cc69df5dc21e8807981f611285ea3204a', 1),    -- userpass2
-('marco.gialli@email.com', 'Marco', 'Gialli', 'b47be6810ec1f40a841aa891a59b9f19f52e4ef999a082ff414569f9bb9349a0247e00620f0a67084aa0d6c124dd6747', 2), -- userpass3
+('marco.gialli@email.com', 'Marco', 'Gialli', 'ead5a4ba32f1b9692745fc4f0374574cd8cc602e3a049fe930abee61383b403d3867afce2eccf7d24a5b937de1ba8dfa', 2), -- userpass3
 ('sara.blu@email.com', 'Sara', 'Blu', '91d2c8c2452c09cdd3ab44a0db8cec341524a63c1e9440d2d8895a44a1941ee37f33efd1ffad725542c70ff5935904cb', 2);       -- userpass4
 
 -- Inserimento utenti registrati

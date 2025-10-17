@@ -17,7 +17,6 @@ import it.univaq.webmarket.framework.view.TemplateResult;
 import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -57,7 +56,7 @@ public class LoginController extends ApplicationBaseController {
             response.sendRedirect("utenteRegistrato");
             return;
         }
-        Tecnico tecnico = dl.getTecnicoDAO().getTecnicoByName(email, email);
+        Tecnico tecnico = dl.getTecnicoDAO().getTecnicoByName(email);
         if(tecnico !=null && SecurityHelpers.checkPasswordHashPBKDF2(password, tecnico.getPassword())){
             SecurityHelpers.createSession(request, tecnico.getNome(), tecnico.getKey());
             response.sendRedirect("tecnico");

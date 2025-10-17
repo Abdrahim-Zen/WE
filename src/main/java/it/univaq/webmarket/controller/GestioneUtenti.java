@@ -14,6 +14,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,15 @@ public class GestioneUtenti extends ApplicationBaseController {
     }
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, DataException, TemplateManagerException {
+            throws ServletException, IOException, DataException, TemplateManagerException, SQLException {
          HttpSession session = SecurityHelpers.checkSession(request);
         if(session==null){
             response.sendRedirect("login?error=3");
             return;
         }
+        
+        String azione = request.getParameter("azione");
+        if("elimina".equals(azione)) eliminaUtente(request,response);
         WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
         Integer idAmministratore = (Integer) session.getAttribute("userid");
         
@@ -46,6 +50,13 @@ public class GestioneUtenti extends ApplicationBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         result.activate("gestioneUtenti.ftl.html", datamodel, request, response);
         
+    }
+
+    private void eliminaUtente(HttpServletRequest request, HttpServletResponse response) throws DataException, SQLException, IOException {
+        String email = request.getParameter("emailUtente"); 
+        WebMarketDataLayer dl = (WebMarketDataLayer) request.getAttribute("datalayer");
+        dl.getUtenteRegistratoDAO().deliteUtenteByEmail(email);
+       
     }
 
 

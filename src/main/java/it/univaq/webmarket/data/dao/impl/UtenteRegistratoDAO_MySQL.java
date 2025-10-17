@@ -21,8 +21,9 @@ import java.util.logging.Logger;
  * @author abdrahimzeno
  */
 public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDAO{
-    private PreparedStatement sRegistedUserbyName;
+    private PreparedStatement sRegistedUserbyEmail;
     private PreparedStatement sUserByID;
+    private PreparedStatement dUserByEmail;
     public UtenteRegistratoDAO_MySQL(DataLayer d){
         super(d);
     }
@@ -37,10 +38,12 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
             "WHERE u.ID = ?"
         );
         
-        sRegistedUserbyName = connection.prepareStatement(
+        sRegistedUserbyEmail = connection.prepareStatement(
             "SELECT ur.ID FROM utenteRegistrato ur "+ 
             "JOIN utente u ON ur.ID = u.ID WHERE u.email = ? "
         );
+        
+        dUserByEmail=connection.prepareStatement("DELETE FROM utente WHERE email = ?");
         } catch (SQLException ex) {
             Logger.getLogger(UtenteRegistratoDAO_MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,8 +56,8 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
     public UtenteRegistrato getUtenteRegistrato(String n) throws DataException {
         UtenteRegistrato u= null;
         try {
-            sRegistedUserbyName.setString(1, n);
-            ResultSet rs = sRegistedUserbyName.executeQuery();
+            sRegistedUserbyEmail.setString(1, n);
+            ResultSet rs = sRegistedUserbyEmail.executeQuery();
             
             if(rs.next()){
                  return getUtente(rs.getInt("ID"));
@@ -91,6 +94,13 @@ public class UtenteRegistratoDAO_MySQL extends DAO implements UtenteRegistratoDA
             }
         }
         return u;
+    }
+    
+    @Override
+    public void deliteUtenteByEmail(String email) throws DataException, SQLException{
+        UtenteRegistrato u = getUtenteRegistrato(email);
+        dUserByEmail.setString(1, email);
+        int rs = dUserByEmail.executeUpdate();
     }
     
     public UtenteRegistrato createUtente() {

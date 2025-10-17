@@ -1,30 +1,42 @@
 <!DOCTYPE html>
-<html lang="it">
 
+<html>
     <head>
+        <title>Login</title>
         <meta charset="UTF-8">
-        <title>Home</title>
-        <link rel="stylesheet" href="style/style2.css">
+        <link rel="stylesheet" href="style\style2.css">
+        <#include "head.html">
+        
     </head>
-
     <body>
         <div class="contenitore">
-            <nav>
-                <h2>E-commerce</h2>
-                <div class="user-info">
-                    Benvenuto, ${username}
-                </div>
-            </nav>
-            <div class="board">
-                <button class="task">
-                    Richieste
-                </button>
+            <#include "header.ftl.html">
+            <form id="form" method="get"  action="tecnico">
+                
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <button type="submit" class="task" name="azione" value="a" >
+                                   Gestione utenti
+                                </button>
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="task" name="azione" value="b" >
+                                    Gestione prodotti
+                                </button>
+                             </div>
+                            
+                            <div class="col-3">
+                                <button type="submit" class="task" name="azione" value="c">
+                                    Gestione ordini
+                                </button>
+                             </div>
+                        </div>
+                   
+               
+            </form>
 
-                <button class="task">
-                    Incharichi
-                </button>
-            </div>
         </div>
-    </body>
 
+
+    </body>
 </html>

@@ -55,6 +55,12 @@ public class TecnicoProxy extends TecnicoImpl implements DataItemProxy {
         super.setPassword(x);
         setModified(true);
     }
+    
+    @Override
+    public void setStato(String x){
+        super.setStato(x);
+        setModified(true);
+    }
 
     @Override
     public boolean isModified() {

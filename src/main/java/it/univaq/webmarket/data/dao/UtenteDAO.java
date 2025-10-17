@@ -15,5 +15,6 @@ import java.util.List;
 public interface UtenteDAO {
     Utente getUtente(int id) throws DataException;
     List<Utente> getUtentiCreatiDa(int idAmministratore) throws DataException;
+    void addUtente(String email,String nome,String cognome,String password,Integer idAdmin);
  
 }

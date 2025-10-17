@@ -21,6 +21,7 @@ public class TecnicoImpl extends DataItemImpl<Integer> implements Tecnico{
     private LocalDate dataAssunzione;
     private String password;
     private String email;
+    private String stato;
     public TecnicoImpl(){
         super();
         nome=null;
@@ -86,6 +87,16 @@ public class TecnicoImpl extends DataItemImpl<Integer> implements Tecnico{
     @Override
     public void setEmail(String x) {
         this.email=x; 
+    }
+
+    @Override
+    public void setStato(String x) {
+       this.stato=x; 
+    }
+
+    @Override
+    public String getStato() {
+       return stato; 
     }
     
 }
